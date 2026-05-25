@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KAVEI — Privacy Policy</title>
+<title>KAVEI: Jewish Mitzvot Tracker</title>
+<meta name="description" content="KAVEI — Jewish Mitzvot Tracker. Daily mitzvot, Tree of Life, Torah learning. Privacy-first.">
+<meta property="og:title" content="KAVEI: Jewish Mitzvot Tracker">
+<meta property="og:description" content="קוה אל ה׳ · Hope in Hashem">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🕯️</text></svg>">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -11,11 +16,12 @@
     background: #0B1D3A;
     color: #FBFAF6;
     min-height: 100vh;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
   }
   header {
     background: linear-gradient(170deg, #0B1D3A 0%, #14294A 100%);
-    padding: 40px 24px 32px;
+    padding: 60px 24px 48px;
     border-bottom: 1px solid rgba(201,169,97,0.3);
     text-align: center;
   }
@@ -23,75 +29,106 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    margin-bottom: 8px;
+    gap: 14px;
+    margin-bottom: 12px;
   }
+  .brand-emoji { font-size: 48px; }
   .brand-name {
-    font-size: 28px;
+    font-size: 42px;
     font-weight: 700;
-    letter-spacing: 4px;
+    letter-spacing: 6px;
     color: #D4AF37;
   }
   .tagline {
     color: #C9A961;
-    font-size: 14px;
+    font-size: 16px;
     font-style: italic;
-    letter-spacing: 1.5px;
-  }
-  .page-title {
-    color: #FBFAF6;
-    font-size: 20px;
-    font-weight: 300;
-    margin-top: 20px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
   }
   main {
-    max-width: 780px;
+    flex: 1;
+    max-width: 680px;
     margin: 0 auto;
-    padding: 48px 24px 80px;
+    padding: 56px 24px 48px;
+    text-align: center;
   }
-  .meta {
-    color: #5A6E9E;
-    font-size: 13px;
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(201,169,97,0.15);
+  .description {
+    color: #C5CEDE;
+    font-size: 18px;
+    line-height: 1.75;
+    margin-bottom: 48px;
+    font-style: italic;
   }
-  h2 {
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    max-width: 540px;
+    margin: 0 auto 40px;
+  }
+  .cta {
+    display: block;
+    padding: 28px 24px;
+    background: rgba(201,169,97,0.08);
+    border: 1px solid rgba(201,169,97,0.35);
+    border-radius: 14px;
+    color: #FBFAF6;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  .cta:hover {
+    background: rgba(201,169,97,0.16);
+    border-color: #D4AF37;
+    transform: translateY(-2px);
+  }
+  .cta-icon { font-size: 28px; margin-bottom: 8px; }
+  .cta-title {
     color: #D4AF37;
     font-size: 18px;
     font-weight: 600;
-    margin: 36px 0 14px;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
   }
-  p, li {
+  .cta-sub {
     color: #C5CEDE;
+    font-size: 13px;
+    font-style: italic;
+  }
+  .quote {
+    margin-top: 56px;
+    padding: 24px;
+    border-top: 1px solid rgba(201,169,97,0.15);
+    border-bottom: 1px solid rgba(201,169,97,0.15);
+    color: #C9A961;
+    font-style: italic;
     font-size: 15px;
-    line-height: 1.85;
-    margin-bottom: 12px;
+    line-height: 1.7;
   }
-  ul {
-    padding-left: 24px;
-    margin-bottom: 14px;
+  .quote small {
+    display: block;
+    margin-top: 8px;
+    color: #5A6E9E;
+    font-size: 12px;
   }
-  li { margin-bottom: 8px; }
-  strong { color: #FBFAF6; }
-  a { color: #C9A961; }
-  .highlight {
-    background: rgba(201,169,97,0.08);
-    border-left: 3px solid #C9A961;
-    padding: 16px 20px;
-    border-radius: 0 8px 8px 0;
-    margin: 20px 0;
-  }
-  .highlight p { margin: 0; }
   footer {
     text-align: center;
-    padding: 32px;
+    padding: 28px 16px;
     border-top: 1px solid rgba(201,169,97,0.15);
     color: #5A6E9E;
     font-size: 13px;
     font-style: italic;
+  }
+  @media (max-width: 480px) {
+    header { padding: 44px 16px 36px; }
+    .brand-emoji { font-size: 38px; }
+    .brand-name { font-size: 30px; letter-spacing: 4px; }
+    .tagline { font-size: 13px; letter-spacing: 1.2px; }
+    main { padding: 36px 18px 36px; }
+    .description { font-size: 16px; margin-bottom: 32px; }
+    .cta-grid { grid-template-columns: 1fr; gap: 14px; }
+    .cta { padding: 22px 18px; }
+    .cta-title { font-size: 16px; }
+    .quote { font-size: 14px; margin-top: 40px; }
   }
 </style>
 </head>
@@ -99,93 +136,39 @@
 
 <header>
   <div class="brand">
-    <span style="font-size:28px">🕯️</span>
+    <span class="brand-emoji">🕯️</span>
     <span class="brand-name">KAVEI</span>
   </div>
   <div class="tagline">קוה אל ה׳ · Hope in Hashem</div>
-  <div class="page-title">Privacy Policy</div>
 </header>
 
 <main>
-  <div class="meta">
-    Last updated: May 2026 &nbsp;·&nbsp; Effective date: May 2026
-  </div>
-
-  <div class="highlight">
-    <p><strong>Short version:</strong> KAVEI is a personal spiritual growth tracker. Your data stays on your device. We do not sell your data. We do not read your prayers or mitzvah logs. KAVEI is free: there are no in-app purchases or donations currently offered, and we do not solicit donations through the app. What you do spiritually is between you and Hashem.</p>
-  </div>
-
-  <h2>1. Who We Are</h2>
-  <p>KAVEI ("we", "our", "the app") is a mobile application developed by Leon Kaplun. The app helps Jewish users track daily mitzvot, study Torah content, and monitor spiritual growth. Contact: <a href="mailto:leon.kaplun@gmail.com">leon.kaplun@gmail.com</a></p>
-
-  <h2>2. What Information We Collect</h2>
-  <p>KAVEI is designed with privacy as a core principle. Here is exactly what we collect:</p>
-  <ul>
-    <li><strong>Nothing you don't give us.</strong> We do not require account registration to use the core features of the app.</li>
-    <li><strong>Local data only (no account required):</strong> Your mitzvah completions, streak count, points, and custom mitzvot are stored locally on your device only.</li>
-    <li><strong>If you create an account (optional):</strong> We collect your email address for account management purposes only.</li>
-    <li><strong>Purchase information:</strong> KAVEI is currently free and contains no in-app purchases or donations. If a paid tier is added in a future version, payments will be processed exclusively by the Apple App Store (In-App Purchase / StoreKit) on iOS and by Google Play Billing on Android. We never receive your payment card details, and we do not solicit donations through the app.</li>
-    <li><strong>Anonymous usage analytics (optional):</strong> We may collect anonymous, aggregated usage data (e.g., which features are used most) to improve the app. This data cannot be linked to you personally.</li>
-  </ul>
-
-  <h2>3. Torah Content</h2>
-  <p>Daily learning content (Chumash, Tehillim, Tanya, Rambam) is sourced from <strong>Sefaria.org</strong>, a free, open-source Jewish library. Sefaria's privacy policy applies to any direct interactions with their API. KAVEI does not store or transmit the content you read.</p>
-
-  <h2>4. How We Use Information</h2>
-  <ul>
-    <li>To provide and maintain the app's functionality</li>
-    <li>To process and validate any future in-app purchases (none currently offered)</li>
-    <li>To improve the app based on anonymous usage patterns</li>
-    <li>We do <strong>not</strong> use your data for advertising</li>
-    <li>We do <strong>not</strong> sell your data to third parties — ever</li>
-    <li>We do <strong>not</strong> share your data with other users</li>
-  </ul>
-
-  <h2>5. Data Storage and Security</h2>
-  <p>Your spiritual data (mitzvah completions, points, streaks) is stored locally on your device using the standard secure storage provided by your operating system. If you do not create an account, your data never leaves your device.</p>
-
-  <h2>6. Third-Party Services</h2>
-  <ul>
-    <li><strong>Sefaria API</strong> — provides Torah text content. <a href="https://www.sefaria.org/privacy-policy">Sefaria Privacy Policy</a></li>
-    <li><strong>Apple In-App Purchase (StoreKit)</strong> on iOS / <strong>Google Play Billing</strong> on Android — will handle payments if any paid tier is offered in a future version. No in-app purchases are currently offered. <a href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a> · <a href="https://policies.google.com/privacy">Google Privacy Policy</a></li>
-  </ul>
-
-  <h2>7. Children's Privacy</h2>
-  <p>KAVEI is not directed at children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us and we will delete it promptly.</p>
-
-  <h2>8. Your Rights</h2>
-  <p>You have the right to:</p>
-  <ul>
-    <li>Access the personal data we hold about you</li>
-    <li>Request deletion of your data</li>
-    <li>Opt out of analytics at any time in app Settings</li>
-    <li>Export your data (coming in a future update)</li>
-  </ul>
-  <p>To exercise these rights, contact us at <a href="mailto:leon.kaplun@gmail.com">leon.kaplun@gmail.com</a></p>
-
-  <h2>9. Shabbat Awareness</h2>
-  <p>KAVEI is designed to respect Shabbat. The app uses your location only on-device to calculate when Shabbat begins and ends in your area, and automatically displays a Shabbat countdown and a quieter visual theme during those hours. KAVEI's core mitzvah-tracking features work fully offline. The current version does not send any push notifications. If notification features are added in a future version, this section will be updated to describe how they behave during Shabbat.</p>
-
-  <h2>10. Changes to This Policy</h2>
-  <p>We may update this Privacy Policy as the app grows. We will notify you of significant changes through the app or by email (if you have an account). Continued use of the app after changes constitutes acceptance of the updated policy.</p>
-
-  <h2>11. Contact Us</h2>
-  <p>If you have any questions about this Privacy Policy or your data:</p>
-  <p>
-    <strong>Leon Kaplun</strong><br>
-    Email: <a href="mailto:leon.kaplun@gmail.com">leon.kaplun@gmail.com</a>
+  <p class="description">
+    A daily Jewish mitzvot tracker.<br>
+    Built to help you live Torah, not just read about it.
   </p>
 
-  <div class="highlight" style="margin-top:40px">
-    <p style="text-align:center; font-style:italic; color:#C9A961">
-      "קוה אל ה׳ חזק ויאמץ לבך וקוה אל ה׳"<br>
-      <span style="font-size:13px; color:#5A6E9E">Hope in the LORD; be strong and of good courage. Hope in the LORD. — Psalm 27:14</span>
-    </p>
+  <div class="cta-grid">
+    <a href="privacy.html" class="cta">
+      <div class="cta-icon">🛡️</div>
+      <div class="cta-title">Privacy Policy</div>
+      <div class="cta-sub">Your data stays yours</div>
+    </a>
+    <a href="support.html" class="cta">
+      <div class="cta-icon">✉️</div>
+      <div class="cta-title">Support &amp; Contact</div>
+      <div class="cta-sub">FAQs and how to reach us</div>
+    </a>
+  </div>
+
+  <div class="quote">
+    "קוה אל ה׳ חזק ויאמץ לבך וקוה אל ה׳"
+    <small>Hope in the LORD; be strong and of good courage. Hope in the LORD. — Psalm 27:14</small>
   </div>
 </main>
 
 <footer>
-  © 2026 KAVEI · Leon Kaplun · All rights reserved
+  © 2026 Leon Kaplun · Made with care for Klal Yisrael
 </footer>
 
 </body>

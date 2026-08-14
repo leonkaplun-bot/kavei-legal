@@ -16,24 +16,67 @@ const os = require('node:os');
 const path = require('node:path');
 
 const PROBE_PROMPT = 'Reply with exactly: OK';
-const PROBE_TIMEOUT_MS = 90000;
+const PROBE_TIMEOUT_MS = 60000;
+const HELP_TIMEOUT_MS = 30000;
 
 // Ordered by how current each form is; `{prompt}` is substituted at call time.
+// The list is deliberately broad because these CLIs are young and their
+// non-interactive syntax differs between builds and versions.
 const CANDIDATES = {
   codex: [
     ['exec', '--skip-git-repo-check', '{prompt}'],
     ['exec', '{prompt}'],
     ['-q', '{prompt}'],
+    ['run', '{prompt}'],
     ['{prompt}'],
   ],
   grok: [
     ['-p', '{prompt}'],
     ['--prompt', '{prompt}'],
     ['exec', '{prompt}'],
+    ['run', '{prompt}'],
+    ['ask', '{prompt}'],
+    ['chat', '{prompt}'],
+    ['-m', '{prompt}'],
+    ['--message', '{prompt}'],
     ['-q', '{prompt}'],
     ['{prompt}'],
   ],
 };
+
+/** Capture `--help` output; used to rank invocation candidates. */
+async function helpText(bin) {
+  for (const flag of ['--help', '-h']) {
+    const res = await run(bin, [flag], { timeoutMs: HELP_TIMEOUT_MS });
+    const text = `${res.stdout}\n${res.stderr}`.trim();
+    if (text) return text.toLowerCase();
+  }
+  return '';
+}
+
+/**
+ * Put candidates whose leading token actually appears in --help first, so an
+ * unfamiliar build converges in one or two tries instead of timing out through
+ * the whole list.
+ */
+function rankCandidates(list, help) {
+  if (!help) return list;
+  const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const score = (pattern) => {
+    const token = pattern[0];
+    if (!token || token === '{prompt}') return 0;
+    if (token.startsWith('-')) {
+      // Match the flag as a whole word, so "-p" does not score on "--prompt".
+      return new RegExp(`(^|[\\s,\\[])${esc(token)}([\\s,=\\]]|$)`, 'm').test(help) ? 2 : 0;
+    }
+    // Subcommands are listed at line start in most help output.
+    return new RegExp(`^\\s*${esc(token)}\\b`, 'm').test(help) ? 2 : help.includes(token) ? 1 : 0;
+  };
+  return list
+    .map((pattern, index) => ({ pattern, index, score: score(pattern) }))
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .map((e) => e.pattern);
+}
 
 const DEFAULT_BIN = { codex: 'codex', grok: 'grok' };
 
@@ -203,7 +246,8 @@ async function resolveArgs(provider, { force = false } = {}) {
   const resolved = which(bin);
   if (!resolved) return null;
 
-  for (const pattern of CANDIDATES[provider] || []) {
+  const help = await helpText(resolved);
+  for (const pattern of rankCandidates(CANDIDATES[provider] || [], help)) {
     const res = await run(resolved, fill(pattern, PROBE_PROMPT), { timeoutMs: PROBE_TIMEOUT_MS });
     if (res.code === 0 && res.stdout.trim()) {
       const cfg = readConfig();

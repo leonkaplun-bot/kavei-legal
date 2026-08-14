@@ -8,6 +8,20 @@ Nothing to install. Node 18+ (this environment has v22) and a network path are
 all it needs — the client is hand-rolled against `node:https` because Node's
 global `fetch` ignores `HTTPS_PROXY`, which this environment requires.
 
+## Windows one-shot setup
+
+`setup-windows.cmd` in the repository root does the whole local setup: clones or
+updates the repo under `%USERPROFILE%`, installs Claude Code and Codex if
+missing, locates the CLIs, runs the connectivity check, and launches Claude Code
+in the repo. It is a `.cmd`, so the PowerShell execution policy never applies,
+and it is safe to run repeatedly — every step checks before acting.
+
+Double-click it, or from `cmd`:
+
+```
+curl -L -o "%USERPROFILE%\council-setup.cmd" https://raw.githubusercontent.com/leonkaplun-bot/kavei-legal/claude/grok-codex-integration-ezmmc9/setup-windows.cmd && "%USERPROFILE%\council-setup.cmd"
+```
+
 ## Two transports
 
 Chosen automatically per provider; `council status` shows which one is active.

@@ -103,11 +103,39 @@ function which(bin) {
   return null;
 }
 
+const IS_WIN = process.platform === 'win32';
+
+// npm installs CLIs on Windows as .cmd shims, and since Node 18.20 spawning one
+// directly throws EINVAL. Route those through cmd.exe with a hand-built,
+// verbatim command line — Node's `shell: true` joins argv without quoting, so
+// it mangles any argument containing a space.
+function quoteForCmd(value) {
+  return '"' + String(value).replace(/"/g, '\\"') + '"';
+}
+
+function spawnTarget(bin, args) {
+  if (!IS_WIN || !/\.(cmd|bat)$/i.test(bin)) {
+    return { command: bin, argv: args, extra: {} };
+  }
+  const line = [bin, ...args].map(quoteForCmd).join(' ');
+  return {
+    command: process.env.ComSpec || 'cmd.exe',
+    argv: ['/d', '/s', '/c', `"${line}"`],
+    extra: { windowsVerbatimArguments: true },
+  };
+}
+
 function run(bin, args, { timeoutMs = 300000, cwd = process.cwd() } = {}) {
   return new Promise((resolve) => {
+    const target = spawnTarget(bin, args);
     let child;
     try {
-      child = spawn(bin, args, { cwd, env: process.env, stdio: ['ignore', 'pipe', 'pipe'] });
+      child = spawn(target.command, target.argv, {
+        cwd,
+        env: process.env,
+        stdio: ['ignore', 'pipe', 'pipe'],
+        ...target.extra,
+      });
     } catch (err) {
       resolve({ code: -1, stdout: '', stderr: err.message, timedOut: false });
       return;

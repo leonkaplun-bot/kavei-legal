@@ -31,6 +31,14 @@ COUNCIL_CODEX_BIN=/opt/codex/bin/codex     # non-standard install path
 COUNCIL_GROK_ARGS="--prompt {prompt}"      # pin the argument form
 ```
 
+On Windows, npm installs these CLIs as `.cmd` shims, which Node refuses to
+spawn directly since 18.20. Those are routed through `cmd.exe` with a verbatim,
+hand-quoted command line. A native `.exe` is preferred when both exist, since it
+skips the shell entirely. Known limit of the `.cmd` route: `cmd.exe` command
+lines cannot carry literal newlines or `%VAR%` sequences intact, so very large
+multi-line prompts are better piped to the CLI directly than sent through the
+council.
+
 ### 2. Vendor API — fallback
 
 Used when no local binary is found.

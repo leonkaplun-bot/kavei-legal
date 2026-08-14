@@ -78,8 +78,21 @@ function pinnedArgs(provider) {
   return null;
 }
 
+// Directories these CLIs commonly install into but do not always add to PATH,
+// searched after PATH itself.
+function fallbackDirs(bin) {
+  const home = os.homedir();
+  const dirs = [path.join(home, `.${bin}`, 'bin'), path.join(home, '.local', 'bin')];
+  if (process.platform === 'win32') {
+    const appData = process.env.APPDATA || path.join(home, 'AppData', 'Roaming');
+    dirs.push(path.join(appData, 'npm'), path.join(home, `.${bin}`));
+  }
+  return dirs;
+}
+
 function which(bin) {
   const dirs = (process.env.PATH || '').split(path.delimiter).filter(Boolean);
+  dirs.push(...fallbackDirs(bin));
   const exts = process.platform === 'win32' ? ['.exe', '.cmd', '.bat', ''] : [''];
   if (bin.includes(path.sep)) {
     try {
@@ -185,10 +198,13 @@ async function resolveArgs(provider, { force = false } = {}) {
   if (pinned && !force) return pinned;
 
   const bin = binFor(provider);
-  if (!which(bin)) return null;
+  // Probe the resolved path, not the bare name: the binary may live in a
+  // fallback directory that is not on PATH, where spawn would not find it.
+  const resolved = which(bin);
+  if (!resolved) return null;
 
   for (const pattern of CANDIDATES[provider] || []) {
-    const res = await run(bin, fill(pattern, PROBE_PROMPT), { timeoutMs: PROBE_TIMEOUT_MS });
+    const res = await run(resolved, fill(pattern, PROBE_PROMPT), { timeoutMs: PROBE_TIMEOUT_MS });
     if (res.code === 0 && res.stdout.trim()) {
       const cfg = readConfig();
       cfg[provider] = { ...(cfg[provider] || {}), bin, args: pattern };

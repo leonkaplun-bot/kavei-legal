@@ -6,6 +6,22 @@ const fs = require('node:fs');
 
 const { request } = require('./http');
 const providers = require('./providers');
+const local = require('./local');
+
+// Transport selection. "auto" prefers a locally installed CLI (no key needed,
+// and it can see the repo) and falls back to the vendor API.
+//   COUNCIL_MODE = auto | local | api
+function mode() {
+  const m = String(process.env.COUNCIL_MODE || 'auto').toLowerCase();
+  return ['auto', 'local', 'api'].includes(m) ? m : 'auto';
+}
+
+function useLocal(provider) {
+  const m = mode();
+  if (m === 'api') return false;
+  if (m === 'local') return true;
+  return local.available(provider);
+}
 
 const CACHE_TTL_MS = 60 * 60 * 1000;
 
@@ -110,11 +126,17 @@ async function resolveModel(name, explicit) {
 async function ask(name, prompt, options = {}) {
   const { system, model, timeoutMs = 180000 } = options;
   const p = providers.get(name);
-  const key = providers.apiKey(p);
-  if (!key) throw missingKeyError(p);
   if (!prompt || !String(prompt).trim()) {
     throw new CouncilError('prompt is empty', { provider: p.id });
   }
+
+  if (useLocal(p.id)) {
+    const r = await local.ask(p.id, String(prompt), { system, timeoutMs: Math.max(timeoutMs, 300000) });
+    return { ...r, label: p.label };
+  }
+
+  const key = providers.apiKey(p);
+  if (!key) throw missingKeyError(p);
 
   const chosen = await resolveModel(name, model);
   const messages = [];
@@ -156,6 +178,7 @@ async function ask(name, prompt, options = {}) {
   return {
     provider: p.id,
     label: p.label,
+    transport: 'api',
     model: (res.json && res.json.model) || chosen,
     text: typeof text === 'string' ? text : JSON.stringify(text),
     usage: (res.json && res.json.usage) || null,
@@ -205,9 +228,12 @@ async function status() {
   for (const name of providers.names()) {
     const p = providers.get(name);
     const key = providers.apiKey(p);
+    const localBin = local.which(local.binFor(p.id));
     const entry = {
       provider: p.id,
       label: p.label,
+      transport: null,
+      localBin,
       baseUrl: p.baseUrl,
       keyEnv: p.keyEnv[0],
       keyPresent: Boolean(key),
@@ -217,6 +243,26 @@ async function status() {
       detail: null,
     };
 
+    // A local CLI needs no key and wins in auto mode, so report it first.
+    if (useLocal(p.id)) {
+      entry.transport = 'local-cli';
+      if (!localBin) {
+        entry.detail = `COUNCIL_MODE=local but "${local.binFor(p.id)}" is not on PATH`;
+        out.push(entry);
+        continue;
+      }
+      const args = await local.resolveArgs(p.id);
+      entry.reachable = true;
+      entry.authenticated = Boolean(args);
+      entry.model = `${localBin}`;
+      entry.detail = args
+        ? `local CLI works: ${local.binFor(p.id)} ${args.join(' ')}`
+        : `found ${localBin} but no working non-interactive invocation — pin COUNCIL_${p.id.toUpperCase()}_ARGS`;
+      out.push(entry);
+      continue;
+    }
+
+    entry.transport = 'api';
     try {
       const res = await request(`${p.baseUrl}/models`, {
         headers: key ? { Authorization: `Bearer ${key}` } : {},

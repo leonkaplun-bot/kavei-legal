@@ -54,9 +54,19 @@ Skip it for mechanical work. A rename does not need a committee.
 5. A provider without a key fails loudly and in isolation. One dead key never
    blocks the other opinion, and never blocks the task.
 
-### Credentials
+### Two transports
 
-Keys are read from the environment: `XAI_API_KEY` for Grok, `OPENAI_API_KEY`
-for Codex. Set them on the Claude Code **environment** (not with `export` in a
-session) so they survive container restarts and are present in every new chat.
-Setup details are in `tools/council/README.md`.
+`council_status` reports which one is in play per provider.
+
+**Local CLI (preferred, no API key).** If `codex` / `grok` are installed on the
+machine running the session, the council drives those binaries directly. They
+carry their own auth and can see the repo. This only works in a session running
+on that machine — a cloud session cannot reach binaries on someone's laptop.
+
+**Vendor API (fallback).** Used when no local binary is found. Needs
+`XAI_API_KEY` for Grok and `OPENAI_API_KEY` for Codex, set on the Claude Code
+**environment** (not via `export` in a session) so they survive container
+restarts.
+
+Selection is automatic; `COUNCIL_MODE=local|api|auto` forces it. Setup and
+troubleshooting live in `tools/council/README.md`.

@@ -100,12 +100,15 @@ function textResult(text, isError = false) {
 function formatStatus(rows) {
   return rows
     .map((r) => {
-      const mark = r.authenticated ? 'READY' : r.reachable ? 'NO KEY' : 'DOWN';
+      const mark = r.authenticated ? 'READY' : r.reachable ? 'NOT READY' : 'DOWN';
+      const isLocal = r.transport === 'local-cli';
       return [
         `[${mark}] ${r.label}`,
-        `  endpoint: ${r.baseUrl}`,
-        `  key env : ${r.keyEnv} ${r.keyPresent ? '(set)' : '(missing)'}`,
-        r.model ? `  model   : ${r.model}` : null,
+        `  via     : ${isLocal ? 'local CLI (no API key)' : 'vendor API'}`,
+        isLocal ? `  binary  : ${r.localBin || '(not found)'}` : `  endpoint: ${r.baseUrl}`,
+        isLocal ? null : `  key env : ${r.keyEnv} ${r.keyPresent ? '(set)' : '(missing)'}`,
+        !isLocal && r.localBin ? `  note    : local CLI also found at ${r.localBin}` : null,
+        !isLocal && r.model ? `  model   : ${r.model}` : null,
         r.detail ? `  detail  : ${r.detail}` : null,
       ]
         .filter(Boolean)
@@ -127,7 +130,7 @@ async function callTool(name, argsIn) {
   if (name === 'ask_grok' || name === 'ask_codex') {
     const provider = name === 'ask_grok' ? 'grok' : 'codex';
     const r = await ask(provider, args.prompt, { system: args.system, model: args.model });
-    return textResult(`${r.label} — ${r.model} (${(r.ms / 1000).toFixed(1)}s)\n\n${r.text.trim()}`);
+    return textResult(`${r.label} — ${r.model} [${r.transport}] (${(r.ms / 1000).toFixed(1)}s)\n\n${r.text.trim()}`);
   }
 
   if (name === 'council_compare') {
@@ -135,7 +138,7 @@ async function callTool(name, argsIn) {
     const body = results
       .map((r) =>
         r.ok
-          ? `===== ${r.label} — ${r.model} (${(r.ms / 1000).toFixed(1)}s) =====\n${r.text.trim()}`
+          ? `===== ${r.label} — ${r.model} [${r.transport}] (${(r.ms / 1000).toFixed(1)}s) =====\n${r.text.trim()}`
           : `===== ${r.label} — FAILED =====\n${r.error}${r.hint ? `\nhint: ${r.hint}` : ''}`
       )
       .join('\n\n');

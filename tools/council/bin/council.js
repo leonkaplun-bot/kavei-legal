@@ -86,24 +86,33 @@ function printStatus(rows, asJson) {
     return;
   }
   for (const r of rows) {
-    const mark = r.authenticated ? 'READY' : r.reachable ? 'NO KEY' : 'DOWN';
+    const mark = r.authenticated ? 'READY' : r.reachable ? 'NOT READY' : 'DOWN';
     process.stdout.write(`[${mark}] ${r.label}\n`);
-    process.stdout.write(`        endpoint : ${r.baseUrl}\n`);
-    process.stdout.write(`        key env  : ${r.keyEnv} ${r.keyPresent ? '(set)' : '(missing)'}\n`);
-    if (r.model) process.stdout.write(`        model    : ${r.model}\n`);
-    if (r.detail) process.stdout.write(`        detail   : ${r.detail}\n`);
+    process.stdout.write(`          via      : ${r.transport === 'local-cli' ? 'local CLI (no API key)' : 'vendor API'}\n`);
+    if (r.transport === 'local-cli') {
+      process.stdout.write(`          binary   : ${r.localBin || '(not found)'}\n`);
+    } else {
+      process.stdout.write(`          endpoint : ${r.baseUrl}\n`);
+      process.stdout.write(`          key env  : ${r.keyEnv} ${r.keyPresent ? '(set)' : '(missing)'}\n`);
+      if (r.localBin) process.stdout.write(`          note     : local CLI also found at ${r.localBin}\n`);
+      if (r.model) process.stdout.write(`          model    : ${r.model}\n`);
+    }
+    if (r.detail) process.stdout.write(`          detail   : ${r.detail}\n`);
     process.stdout.write('\n');
   }
   const ready = rows.filter((r) => r.authenticated).map((r) => r.provider);
+  if (ready.length === rows.length) {
+    process.stdout.write('All providers ready.\n');
+    return;
+  }
+  process.stdout.write(`Ready: ${ready.length ? ready.join(', ') : 'none'}.\n`);
   process.stdout.write(
-    ready.length === rows.length
-      ? 'All providers ready.\n'
-      : `Ready: ${ready.length ? ready.join(', ') : 'none'}. Missing keys must be set as environment variables on the Claude Code environment so they persist across sessions.\n`
+    'Two ways to get there: run this session on a machine that has the codex/grok CLIs installed (no key needed), or set XAI_API_KEY / OPENAI_API_KEY on the Claude Code environment.\n'
   );
 }
 
 function printAnswer(r) {
-  process.stdout.write(`===== ${r.label} — ${r.model} (${(r.ms / 1000).toFixed(1)}s) =====\n`);
+  process.stdout.write(`===== ${r.label} — ${r.model} [${r.transport}] (${(r.ms / 1000).toFixed(1)}s) =====\n`);
   process.stdout.write(r.text.trim() + '\n\n');
 }
 

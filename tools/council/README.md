@@ -8,9 +8,32 @@ Nothing to install. Node 18+ (this environment has v22) and a network path are
 all it needs — the client is hand-rolled against `node:https` because Node's
 global `fetch` ignores `HTTPS_PROXY`, which this environment requires.
 
-## Setup
+## Two transports
 
-One step, done once per environment:
+Chosen automatically per provider; `council status` shows which one is active.
+
+### 1. Local CLI — preferred, no API key
+
+If `codex` / `grok` are installed on the machine running the session, the
+council runs those binaries directly. They use their own existing login, and
+they can see the repository, so answers are grounded in the actual code.
+
+**This requires a session on that machine** — the Claude Code CLI or desktop
+app, opened in this repo. A browser session at claude.ai/code runs in a cloud
+VM with no path to your computer, so it can never see locally installed tools.
+
+Nothing to configure. The invocation form differs between CLI builds, so it is
+probed once against a set of known patterns and the winner is cached in
+`~/.council-local.json`. Overrides, if a build is unusual:
+
+```bash
+COUNCIL_CODEX_BIN=/opt/codex/bin/codex     # non-standard install path
+COUNCIL_GROK_ARGS="--prompt {prompt}"      # pin the argument form
+```
+
+### 2. Vendor API — fallback
+
+Used when no local binary is found.
 
 | Provider | Environment variable | Where to get a key |
 | --- | --- | --- |
@@ -22,13 +45,14 @@ Set these as **environment variables on the Claude Code environment**
 `export` inside a session. The container is ephemeral and is rebuilt from a
 fresh clone each time; only environment-level variables survive that.
 
-Verify:
+### Verify either way
 
 ```bash
 node tools/council/bin/council.js status
 ```
 
 `READY` on both lines means every new chat can use the council immediately.
+`COUNCIL_MODE=local|api|auto` forces a transport instead of auto-selecting.
 
 ## Usage
 
@@ -74,7 +98,8 @@ deliberately, set the env var.
 tools/council/
   lib/http.js       CONNECT-tunnelling HTTPS client, trusts the proxy CA bundle
   lib/providers.js  endpoints, key env vars, model preference lists
-  lib/council.js    ask / compare / status / model resolution
+  lib/local.js      local-CLI transport: binary discovery, invocation probing
+  lib/council.js    transport selection, ask / compare / status
   bin/council.js    CLI
   mcp-server.js     MCP stdio server (JSON-RPC over stdin/stdout)
 ```
@@ -88,7 +113,10 @@ single code path valid across every model either vendor offers.
 
 | Symptom | Cause | Fix |
 | --- | --- | --- |
-| `NO KEY`, HTTP 401 | no key in the environment | set the variable above at environment level |
+| falls back to API although the CLI is installed | session is running elsewhere (e.g. in the browser), or the binary is not on `PATH` | run the session on that machine, or set `COUNCIL_<PROVIDER>_BIN` |
+| `no known way to run it non-interactively` | unusual CLI build | pin `COUNCIL_<PROVIDER>_ARGS`, must contain `{prompt}` |
+| local CLI exits non-zero | CLI not signed in | run the binary once by hand and complete its login |
+| `NOT READY`, HTTP 401 | no key in the environment | set the variable above at environment level |
 | `key rejected` | wrong or revoked key | reissue in the provider console |
 | HTTP 404 on a model | model not available to the account | `council models <provider>`, then set `XAI_MODEL` / `OPENAI_MODEL` |
 | `proxy CONNECT … 403/407` | egress policy blocks the host | report it; do not route around the proxy |

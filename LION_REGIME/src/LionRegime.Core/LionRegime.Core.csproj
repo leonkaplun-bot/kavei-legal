@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    LionRegime.Core — чистая логика без зависимости от cAlgo.
+    net6.0 = тот же target, что у cBot-проектов cTrader. cBot (LionRegime.Tagger)
+    будет ссылаться на эту сборку; здесь ни одной строки торговой логики.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>LionRegime.Core</RootNamespace>
+    <AssemblyName>LionRegime.Core</AssemblyName>
+  </PropertyGroup>
+
+</Project>

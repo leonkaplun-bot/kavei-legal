@@ -1,0 +1,12 @@
+bin/
+obj/
+TestResults/
+*.user
+*.suo
+.vs/
+.idea/
+# выходные CSV разметки — большие, генерируются бэктестером
+data/tags_*.csv
+data/LION_overlay_*.csv
+analysis/__pycache__/
+analysis/.ipynb_checkpoints/

@@ -16,7 +16,10 @@ LION_REGIME/
   Directory.Build.props           ← общие правила сборки (warning = error, nullable on)
   src/
     LionRegime.Core/              ← чистая логика, net6.0, без cAlgo
+      Market/                     ← Bar, Timeframe
+      Indicators/                 ← ATR по Уайлдеру
       Sessions/                   ← слой 1 (готов)
+      Liquidity/                  ← слой 2 (готов)
       Calendar/                   ← IHolidayCalendar (интерфейс)
     LionRegime.Tagger/            ← cBot-обёртка для cTrader (следующие сессии)
   tests/
@@ -30,7 +33,7 @@ LION_REGIME/
 | # | Слой | Файл | Статус |
 |---|---|---|---|
 | 1 | Sessions | `src/LionRegime.Core/Sessions/SessionEngine.cs` | **готов, 94 теста** |
-| 2 | Liquidity Map | `LiquidityMap.cs` | — |
+| 2 | Liquidity Map | `src/LionRegime.Core/Liquidity/LiquidityMap.cs` | **готов, 54 теста** |
 | 3 | Regime Detector | `RegimeDetector.cs` | — |
 | 3a | News Calendar | `NewsCalendar.cs` | — |
 | 4 | Strategy Library | `Strategies/` | только интерфейс (фаза 2) |
@@ -76,3 +79,51 @@ dotnet test  -c Release
 
 Lookahead исключён по построению: движок видит только закрытые бары и бросает исключение при
 подаче бара не по порядку.
+
+
+## Слой 2 — Liquidity Map: как это работает
+
+Таблица уровней, за которыми стоят стопы. Пересчитывается на закрытии каждого бара, только по закрытым данным.
+
+**Как кормить.** Сначала закрытые бары старших ТФ, потом бар M5:
+
+```csharp
+map.OnHigherTimeframeBar(Timeframe.D1, d1Bar);   // → PDH / PDL
+map.OnHigherTimeframeBar(Timeframe.W1, w1Bar);   // → PWH / PWL
+map.OnHigherTimeframeBar(Timeframe.MN1, mn1Bar); // → PMH / PML
+map.OnHigherTimeframeBar(Timeframe.H1, h1Bar);   // → SWING_H/L, EQH/EQL, ATR
+map.OnHigherTimeframeBar(Timeframe.H4, h4Bar);   // то же на H4
+var update = map.OnBar(m5Bar, sessionState);     // → сессионные пулы, свипы
+```
+
+**Типы пулов.** `PDH/PDL`, `PWH/PWL`, `PMH/PML`, `ASIA_H/L`, `LONDON_H/L`, `NY_H/L` (сессия NY_CASH),
+`EQH/EQL` (кластер ≥ 2 свингов в пределах 0.15 × ATR своего ТФ), `SWING_H/L` (фрактал N = 5 на H1 и H4).
+Для FRANKFURT, NY_PRE, LONDON_CLOSE и NY_CLOSE пулов нет: ТЗ их не определяет.
+
+**Защита от lookahead.** У каждого пула есть `CreatedAt` — момент, когда он стал известен: закрытие
+породившего бара или конец сессии. Бар с более ранним временем этот пул не видит, даже если данные
+старшего ТФ уже поданы в карту. Свинг подтверждается только после закрытия обоих крыльев фрактала.
+
+**Свипы.** Уровень снят, когда экстремум бара прошёл строго за него. `WICK` — бар закрылся обратно за
+уровнем, `BODY` — закрылся снаружи. Оба типа логируются отдельно: это открытый research-вопрос проекта.
+Глубина `SweepDepthAtr` меряется в ATR(14, H1).
+
+**Возврат известен не сразу.** `ReclaimedWithinNBars` определяется в окне из бара свипа и следующих
+6 баров M5. До закрытия окна значение `null`. **Таггер обязан писать колонку `sweep_reclaimed` вторым
+проходом:** заполнить её на баре свипа сразу — это lookahead. Разрешившиеся события приходят
+в `LiquidityUpdate.ResolvedSweeps`.
+
+**GetTargets — главная функция слоя.**
+
+```csharp
+var targets = map.GetTargets(TradeDirection.Long, currentPrice);
+targets.Near;  // ближайший уровень — здесь нас стопят
+targets.Far;   // самый дальний в пределах 10 × ATR(H1) — ЭТО ЦЕЛЬ
+```
+
+Для long `Far` — максимальная цена среди пулов выше, для short — минимальная среди пулов ниже.
+Известный failure mode прошлого бота: TP ставился на `Near` вместо `Far`, и это инвертировало edge.
+На это есть отдельный набор тестов в `GetTargetsTests`.
+
+**Единица измерения.** Все расстояния и глубины — в ATR(14) на H1. Пока ATR не готов, значения `NaN`,
+а фильтр максимального расстояния отключён (пулы возвращаются без обрезки).

@@ -130,11 +130,11 @@
 
 <main>
   <div class="meta">
-    Last updated: May 2026 &nbsp;·&nbsp; Effective date: May 2026
+    Last updated: October 21, 2026 &nbsp;·&nbsp; Effective date: October 21, 2026
   </div>
 
   <div class="highlight">
-    <p><strong>Short version:</strong> KAVEI is a personal spiritual growth tracker. Your data stays on your device. We do not sell your data. We do not read your prayers or mitzvah logs. KAVEI is free: there are no in-app purchases or donations currently offered, and we do not solicit donations through the app. What you do spiritually is between you and Hashem.</p>
+    <p><strong>Short version:</strong> KAVEI is a personal spiritual growth tracker. Your data stays on your device: there are no accounts, and your mitzvot, points, yahrzeits, your rabbi's contact and your location are not sent to our server. The only exception: if you tap "Where is this from?" on a mitzvah you added yourself, the name you gave it is sent with the question (section 4). We do not sell your data, and the app contains no advertising, analytics or tracking. We do not read your prayers or mitzvah logs. KAVEI is free: there are no in-app purchases or donations currently offered, and we do not solicit donations through the app. What you do spiritually is between you and Hashem. If you choose to use the optional <strong>Chavruta</strong> feature, the question you type is sent to our server and to Anthropic to prepare an answer. Our server does not save it, unless you choose to report an answer (see section 4).</p>
   </div>
 
   <h2>1. Who We Are</h2>
@@ -143,55 +143,100 @@
   <h2>2. What Information We Collect</h2>
   <p>KAVEI is designed with privacy as a core principle. Here is exactly what we collect:</p>
   <ul>
-    <li><strong>Nothing you don't give us.</strong> We do not require account registration to use the core features of the app.</li>
-    <li><strong>Local data only (no account required):</strong> Your mitzvah completions, streak count, points, and custom mitzvot are stored locally on your device only.</li>
-    <li><strong>If you create an account (optional):</strong> We collect your email address for account management purposes only.</li>
+    <li><strong>Nothing you don't give us.</strong> KAVEI has no accounts and no sign-in. It does not ask for your name, email address or phone number.</li>
+    <li><strong>Local data only:</strong> your mitzvah completions, streak, points, a day-by-day history of your marks and points (kept for about 400 days), the gender you chose (it decides which mitzvot and word forms the app shows), custom mitzvot and dedications, the yahrzeits you add (names, Hebrew dates, notes and relationship), your "My rabbi" card, your location, your language and settings, and your Chavruta chat history are stored on your device only. We do not have a copy. The one exception is the name of a custom mitzvah, which is sent when you ask "Where is this from?" about it (section 4).</li>
+    <li><strong>Chavruta questions (optional):</strong> only if you use Chavruta, the question you type is sent to our server and to Anthropic to prepare an answer. A question and answer that you choose to report are saved for review (section 4).</li>
     <li><strong>Purchase information:</strong> KAVEI is currently free and contains no in-app purchases or donations. If a paid tier is added in a future version, payments will be processed exclusively by the Apple App Store (In-App Purchase / StoreKit) on iOS and by Google Play Billing on Android. We never receive your payment card details, and we do not solicit donations through the app.</li>
-    <li><strong>Anonymous usage analytics (optional):</strong> We may collect anonymous, aggregated usage data (e.g., which features are used most) to improve the app. This data cannot be linked to you personally.</li>
+    <li><strong>No analytics or crash reports:</strong> KAVEI contains no analytics, advertising or crash-reporting tools, and we do not track how you use the app.</li>
+    <li><strong>If you write to us:</strong> the "Contact Leon" button opens your own email app. The app does not collect your email address; if you send us an email, we receive your address and your message and use them only to reply.</li>
   </ul>
 
   <h2>3. Torah Content</h2>
-  <p>Daily learning content (Chumash, Tehillim, Tanya, Rambam) is sourced from <strong>Sefaria.org</strong>, a free, open-source Jewish library. Sefaria's privacy policy applies to any direct interactions with their API. KAVEI does not store or transmit the content you read.</p>
+  <p>Today's learning portions (Chumash, Tanya and Rambam) come from <strong>Sefaria.org</strong>, a free, open-source Jewish library. If Chumash, Tanya or Rambam is on your list, the app itself downloads the daily study calendar directly from Sefaria's public API, about twice a day (for today and for tomorrow). The request contains only the date and whether to use the Israeli or the diaspora schedule, which the app works out from the location you saved (or, before you set one, from your phone's time zone); your city, coordinates and time zone are not sent. As with any website, Sefaria receives the request and your device's IP address. No account, device code or other personal data is sent, and Sefaria's privacy policy applies to these requests. The Tehillim portion is calculated on your phone. The day's calendar is kept on your phone so it does not have to be downloaded again. "Open on Sefaria" and "Daily study on chabad.org" open the text on that website in your browser, only when you tap them. KAVEI does not report to anyone what you read or mark as learned.</p>
 
-  <h2>4. How We Use Information</h2>
+  <h2>4. Chavruta — the Optional AI Study Partner</h2>
+  <p>The Chavruta tab and the "Where is this from?" link answer questions about mitzvot using real texts from Sefaria and an AI model (Claude, made by Anthropic). The feature is optional. The app asks for your consent before your first question, and nothing is sent until you tap "Agree".</p>
+  <ul>
+    <li><strong>What is sent to our server:</strong> the text of your question and the app language. When you tap "Where is this from?", the app sends a fixed question together with the mitzvah's identifier and its name in the app language. Each question is sent on its own: earlier messages from your chat are not sent. Every question and report also carries a random anonymous device code (a token). Our server creates it when you send your first question, after you agree. It is not linked to your name, phone number, email or location, and our server does not keep a list of the codes it has issued. As with any website, our server sees your device's IP address when the app connects.</li>
+    <li><strong>What is not sent:</strong> your name, contacts, location, chat history, yahrzeits, your rabbi's contact, mitzvah history, points or any other app data apart from what is listed above.</li>
+    <li><strong>Who processes it:</strong> our server (hosted by Railway) sends <strong>Anthropic</strong> the text of your question, the name of the mitzvah it is about (if any) and the source texts it found, and Anthropic generates the answer. Your device code and IP address are not sent to Anthropic. For "Where is this from?" about a built-in mitzvah, our server uses its own fixed wording; for a mitzvah you added yourself, the name you gave it is sent. Under Anthropic's commercial terms, Anthropic does not use this data to train its models. It normally deletes API data within 30 days, but may keep it longer where its terms allow — for example, if a question is flagged as violating its usage policy, as part of its safety review of certain models, or where the law requires (see <a href="https://privacy.claude.com/">Anthropic's Privacy Center</a>). Our server also fetches the relevant texts from <strong>Sefaria</strong>. To find them, it sends Sefaria the references of the texts needed for the answer and, when those are not enough, a few English search words that the AI derives from your question (for a short question, these may repeat its words). Your device code and IP address are never sent to Sefaria.</li>
+    <li><strong>What our server keeps:</strong> we do not save your questions or the answers to them, except reports and the shared "Where is this from?" answers (below). Our server's own log records the time, the type of request, the address called, the result code, the response time and short error notes (the kind of error only) — not your IP address, device code, question or answer. These logs are kept by our hosting provider, Railway. Railway's own network layer may also record technical request data, such as your IP address and the time of the request, under Railway's privacy policy. The daily question counters are kept only in the server's memory, never on disk, under the anonymous device code. They cover the current day (UTC) only: they are cleared with the first request after midnight UTC, and whenever the server restarts. To protect the service from abuse, the server also counts requests per IP address and per device code over short periods (one minute to one hour); these counters are kept in memory only and are deleted within about an hour.</li>
+    <li><strong>"Where is this from?" answers:</strong> for the built-in mitzvot, these answers are identical for everyone. To answer faster, our server reuses each such answer for up to 30 days; an expired copy is deleted the next time it is looked up or when the server restarts. They contain no question typed by a user, no device code and no IP address.</li>
+    <li><strong>Reports:</strong> if you tap "Report" on an answer and confirm, that question and answer are sent to us for review, together with the time, a fixed "user report" label and a short tag computed from your device code (not the code itself). For a "Where is this from?" answer, the report also names the mitzvah and the language, so the server can delete its saved copy of that answer. The tag stays the same while your phone keeps the same device code (it changes after you withdraw AI consent or when the app gets a new code), so such reports can be linked to each other. The tag does not contain your name, but the reported question and answer include anything you wrote in them. Reports are stored on our server with no automatic time limit; we delete them when they are no longer needed for review, or when you ask us to. To have a report deleted, write to us with the text of the question and roughly when you sent it, so we can find it.</li>
+    <li><strong>Chat history:</strong> your conversation is kept only on your phone (the last 30 messages, that is up to 15 questions and answers) and is never sent to our server. If your phone's own backup is turned on, it may be included there (section 9). You can delete it at any time with "Clear history" in the Chavruta tab.</li>
+    <li><strong>Sharing an answer:</strong> "Share" hands the question, the answer, up to three source links, a short disclaimer, a "via KAVEI" signature and links to KAVEI in Google Play and the App Store to your phone's share menu (where there is none, they are copied to your clipboard). A long press on an answer copies only the answer text. You choose where it goes; nothing passes through our server.</li>
+    <li><strong>Withdrawing consent:</strong> "Withdraw AI consent" in the Profile tab deletes your chat history and the anonymous device code from your phone, and Chavruta will ask for your consent again before the next question. Nothing is sent to our server when you withdraw. The server keeps no list of device codes; your code appears there only as the key of the day's in-memory counters, which expire on their own (see above). Reports you sent earlier stay until we delete them (see above), and cached "Where is this from?" answers (not linked to anyone) are reused for up to 30 days.</li>
+    <li><strong>Not a ruling:</strong> answers explain what the sources say. They are not a halachic ruling (psak). For a practical question about your own situation, please ask your rabbi.</li>
+  </ul>
+
+  <h2>5. Your Location</h2>
+  <p>KAVEI uses your location to calculate prayer times (zmanim), Shabbat and holiday times, and to choose between the Israeli and the diaspora schedule. After the first setup screens, the app asks for permission to use your location while the app is open; it never asks for background location. If you allow it, your phone's location services (on Android usually Google Play services, on iOS Apple's) determine your current position, and the operating system turns the coordinates into a city and country name using its own geocoding service (on Android this is usually Google's service, on iOS it is Apple's). Both are done by the operating system, not by KAVEI, under Google's or Apple's privacy policy. If you decline, you choose your city from a built-in list, and no lookup is made.</p>
+  <p>The location you set (coordinates, city, country and time zone) is stored on your phone. It is never sent to our server or to Anthropic. It leaves your phone only in these cases: the operating system's lookup described above, the single "Israel or not" flag sent to Sefaria with the daily calendar request (section 3), a backup copy, if you make one (section 7), and your phone's own backup, if it is turned on (section 9).</p>
+
+  <h2>6. "My Rabbi" and "Ask a Rabbi"</h2>
+  <p>You can save your rabbi's name and WhatsApp number in the "My rabbi" card. It is kept only on your phone and is never sent to our server. The "Ask a rabbi" button opens a WhatsApp chat with your rabbi if his number includes a country code (if WhatsApp is not available, your phone's dialer or the WhatsApp website opens instead). If the number has no country code, the button calls it. If no number is saved, it opens the Ask the Rabbi page on Chabad.org in your browser. The text of your question is not added to the message, and your rabbi's name is not passed anywhere: you decide what to write. What you then send goes through WhatsApp, your phone carrier or Chabad.org under their own privacy policies.</p>
+
+  <h2>7. Backup Copy</h2>
+  <p>Because your data lives only on your phone, KAVEI lets you keep your own copy. "Save a backup" in the Profile tab turns the app's data on your phone into a block of text and hands it to your phone's share menu, so you choose where to keep it — for example in a note or a message to yourself. Where there is no share menu (for example in a web browser), the text is copied to your clipboard. "Restore" takes backup text that you paste in and replaces the data on your phone.</p>
+  <p>The backup is created on your phone and never passes through our server: we never receive it. It contains everything the app keeps on your phone — your mitzvot and custom mitzvot, dedications, points, streak, day-by-day history, the gender you chose and other settings, your yahrzeits (the names of your loved ones), your rabbi's contact and your location — except the items listed below, so keep it private and do not send it to others. It leaves out your Chavruta chat history, your AI consent, the anonymous device code, the daily question limit and the saved learning calendar. Restoring a backup does not change the device code or the AI consent on the phone.</p>
+
+  <h2>8. How We Use Information</h2>
   <ul>
     <li>To provide and maintain the app's functionality</li>
+    <li>To answer the Chavruta questions you choose to send, and to review the answers you report so we can improve them</li>
+    <li>To keep the Chavruta service working and protect it from abuse (the short-term counters and logs described in section 4)</li>
+    <li>To reply to emails you send us</li>
     <li>To process and validate any future in-app purchases (none currently offered)</li>
-    <li>To improve the app based on anonymous usage patterns</li>
     <li>We do <strong>not</strong> use your data for advertising</li>
     <li>We do <strong>not</strong> sell your data to third parties — ever</li>
     <li>We do <strong>not</strong> share your data with other users</li>
   </ul>
 
-  <h2>5. Data Storage and Security</h2>
-  <p>Your spiritual data (mitzvah completions, points, streaks) is stored locally on your device using the standard secure storage provided by your operating system. If you do not create an account, your data never leaves your device.</p>
+  <h2>9. Data Storage and Security</h2>
+  <p>Your data (mitzvah completions, points, streaks, yahrzeits, your rabbi's contact, your location, settings and chat history) is stored in the app's own storage on your device, which other apps cannot normally access. KAVEI does not add its own encryption, so we recommend protecting your phone with a screen lock. There are no accounts and no cloud sync. If your phone's own backup (for example iCloud or Google backup) is turned on, the operating system may include the app's data in it, under Apple's or Google's terms; we have no access to it. The app connects to our server and to Sefaria over encrypted HTTPS connections.</p>
+  <p>Your data leaves your device only in the cases described above: the Chavruta questions and reports you choose to send (section 4), the daily calendar request to Sefaria (section 3), the location lookup by your phone's operating system (section 5), a backup you choose to share (section 7), your phone's own backup if it is turned on (see above), and whatever you choose to share, copy or open in another app — an answer you share or copy (section 4), your rabbi's number handed to WhatsApp or your dialer when you tap "Ask a rabbi" (section 6), an email you write to us (section 2), and links you tap (section 10).</p>
 
-  <h2>6. Third-Party Services</h2>
+  <h2>10. Third-Party Services</h2>
   <ul>
-    <li><strong>Sefaria API</strong> — provides Torah text content. <a href="https://www.sefaria.org/privacy-policy">Sefaria Privacy Policy</a></li>
+    <li><strong>Sefaria</strong> — the app downloads the daily study calendar from Sefaria directly (section 3), and our server fetches source texts from Sefaria for Chavruta (section 4). <a href="https://www.sefaria.org/privacy-policy">Sefaria Privacy Policy</a></li>
+    <li><strong>Anthropic (Claude)</strong> — generates Chavruta answers from the questions you choose to send. <a href="https://www.anthropic.com/legal/privacy">Anthropic Privacy Policy</a></li>
+    <li><strong>Railway</strong> — hosts the KAVEI server that relays Chavruta questions, keeps its logs (and its own technical request logs) and stores reports. <a href="https://railway.com/legal/privacy">Railway Privacy Policy</a></li>
+    <li><strong>Google / Apple location services</strong> — your phone's operating system determines your position and turns it into a city name if you allow location (section 5). <a href="https://policies.google.com/privacy">Google Privacy Policy</a> · <a href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a></li>
+    <li><strong>Links you choose to open</strong> — Sefaria and Chabad.org pages, WhatsApp, your phone dialer and your email app open outside KAVEI, only when you tap them. Their own privacy policies apply.</li>
+    <li><strong>GitHub Pages</strong> — hosts this privacy policy. When you open it from the app, GitHub receives an ordinary web request, as with any website. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a></li>
     <li><strong>Apple In-App Purchase (StoreKit)</strong> on iOS / <strong>Google Play Billing</strong> on Android — will handle payments if any paid tier is offered in a future version. No in-app purchases are currently offered. <a href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a> · <a href="https://policies.google.com/privacy">Google Privacy Policy</a></li>
   </ul>
 
-  <h2>7. Children's Privacy</h2>
+  <h2>11. Children's Privacy</h2>
   <p>KAVEI is not directed at children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us and we will delete it promptly.</p>
 
-  <h2>8. Your Rights</h2>
+  <h2>12. Legal Basis and Where Data Is Processed</h2>
+  <ul>
+    <li><strong>Chavruta questions and reports</strong> are processed on the basis of your explicit consent, which you give in the app before your first question and can withdraw at any time in the Profile tab. Questions about Torah and mitzvot may reveal your religious beliefs, and sometimes your health or other personal matters, so please do not include your name or other personal details in them.</li>
+    <li><strong>The short-term counters and our server's log</strong> are kept on the basis of our legitimate interest in keeping the service working and protecting it from abuse.</li>
+    <li><strong>Emails you send us</strong> are used only to reply to you, on the basis of our legitimate interest in answering you. They stay in our mailbox until we delete them, and you can ask us to delete them.</li>
+    <li><strong>Other countries:</strong> Anthropic and Railway are companies based in the United States, so your Chavruta questions may be processed in the United States or in other countries where they operate.</li>
+    <li><strong>How long data is kept:</strong> data on your phone stays there until you delete it or the app (the chat keeps only the last 30 messages, and the day-by-day history about 400 days); the daily question counters cover the current UTC day; the short-term abuse counters are deleted within about an hour; shared "Where is this from?" answers are reused for up to 30 days; for reports and for Anthropic's and Railway's own records, see section 4.</li>
+  </ul>
+
+  <h2>13. Your Rights</h2>
   <p>You have the right to:</p>
   <ul>
-    <li>Access the personal data we hold about you</li>
-    <li>Request deletion of your data</li>
-    <li>Opt out of analytics at any time in app Settings</li>
-    <li>Export your data (coming in a future update)</li>
+    <li>Access the personal data we hold about you. We hold very little: only the reports you choose to send (section 4), the emails you send us and, for a short time, the in-memory question counters kept under your anonymous device code (section 4).</li>
+    <li>Request deletion of your data. You can delete the data on your phone yourself: "Clear history" deletes the Chavruta chat, "Withdraw AI consent" deletes the chat and the device code, and deleting the app deletes everything it stored on your phone. To delete a report you sent, write to us with the text of the question and roughly when you sent it.</li>
+    <li>Export your data: "Save a backup" in the Profile tab gives you a copy of your data as text (section 7).</li>
+    <li>Withdraw your consent to Chavruta at any time in the Profile tab.</li>
+    <li>Complain to a data protection authority, for example the one in the country where you live (in Israel, the Privacy Protection Authority).</li>
   </ul>
   <p>To exercise these rights, contact us at <a href="mailto:leon.kaplun@gmail.com">leon.kaplun@gmail.com</a></p>
 
-  <h2>9. Shabbat Awareness</h2>
-  <p>KAVEI is designed to respect Shabbat. The app uses your location only on-device to calculate when Shabbat begins and ends in your area, and automatically displays a Shabbat countdown and a quieter visual theme during those hours. KAVEI's core mitzvah-tracking features work fully offline. The current version does not send any push notifications. If notification features are added in a future version, this section will be updated to describe how they behave during Shabbat.</p>
+  <h2>14. Shabbat Awareness</h2>
+  <p>KAVEI is designed to respect Shabbat. The app calculates on your phone, from the location you saved, when Shabbat begins and ends in your area, and shows a countdown to candle lighting and to Havdalah and a Shabbat banner. These calculations use a calendar library built into the app; no time or location service is called for them. KAVEI's core mitzvah-tracking features work fully offline. The current version sends no notifications of any kind and does not ask for notification permission. If notification features are added in a future version, this section will be updated to describe how they behave during Shabbat.</p>
 
-  <h2>10. Changes to This Policy</h2>
-  <p>We may update this Privacy Policy as the app grows. We will notify you of significant changes through the app or by email (if you have an account). Continued use of the app after changes constitutes acceptance of the updated policy.</p>
+  <h2>15. Changes to This Policy</h2>
+  <p>We may update this Privacy Policy as the app grows. We will update the date at the top of this page and, if we change how Chavruta handles your questions, ask for your consent again in the app. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
 
-  <h2>11. Contact Us</h2>
+  <h2>16. Contact Us</h2>
   <p>If you have any questions about this Privacy Policy or your data:</p>
   <p>
     <strong>Leon Kaplun</strong><br>

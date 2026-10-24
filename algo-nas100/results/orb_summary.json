@@ -1,0 +1,40 @@
+{
+ "pf_oos": 1.1061720847366736,
+ "n_oos": 1559,
+ "pos_windows": "9/14",
+ "pos_frac": 0.6428571428571429,
+ "maxDD_R": 58.92089999999996,
+ "maxDD_usd": 14730.22499999999,
+ "maxDD_pct": 29.460449999999977,
+ "netR": 113.50710000000001,
+ "net_usd": 28376.775,
+ "worst_day_R": -1.9578,
+ "worst_day_pct": -0.9788999999999999,
+ "win_rate": 0.3072482360487492,
+ "avgR": 0.07280763309813984,
+ "checks": {
+  "pf": false,
+  "n": true,
+  "windows": true,
+  "dd": false
+ },
+ "PASS": false,
+ "strategy": "orb",
+ "cost_pts": 3.0,
+ "risk_pct": 0.5,
+ "gates": {
+  "pf_min": 1.2,
+  "n_min": 100,
+  "pos_windows_min": 0.6,
+  "maxdd_pct_max": 8.0
+ },
+ "windows": 14,
+ "settings": {
+  "start": "2018-01-01",
+  "is_m": 24,
+  "oos_m": 6,
+  "step_m": 6,
+  "min_is_trades": 40,
+  "news_file": null
+ }
+}

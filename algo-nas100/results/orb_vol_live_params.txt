@@ -1,0 +1,12 @@
+IS window 2024-10-17..2026-10-16, selection = max PF with >=40 trades
+                        params   n       pf    netR      avgR      win  maxDD_R  worst_day_R
+   filt=False|stop=rng|tp=None 469 1.221301 52.2950  0.111503 0.413646  24.0941      -3.7397
+filt=False|stop=atr0.5|tp=None 469 1.157642 24.2464  0.051698 0.524520  10.6438      -1.2914
+ filt=False|stop=atr0.5|tp=2.0 469 1.155533 23.9220  0.051006 0.524520   9.7657      -1.2914
+    filt=False|stop=rng|tp=2.0 469 1.105763 23.1803  0.049425 0.452026  21.5943      -3.7397
+     filt=True|stop=rng|tp=2.0  77 0.971185 -0.8367 -0.010866 0.506494   7.6447      -1.0468
+    filt=True|stop=rng|tp=None  77 0.945827 -1.5753 -0.020458 0.493506   7.9040      -1.0468
+  filt=True|stop=atr0.5|tp=2.0  77 0.839637 -5.4252 -0.070457 0.480519  11.3168      -1.0289
+ filt=True|stop=atr0.5|tp=None  77 0.770969 -7.7483 -0.100627 0.480519  11.5856      -1.0289
+
+LIVE PARAMS: filt=False|stop=rng|tp=None

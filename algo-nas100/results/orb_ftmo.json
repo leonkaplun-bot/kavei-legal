@@ -1,0 +1,183 @@
+{
+ "strategy": "orb",
+ "account": 50000,
+ "oos_trades": 1559,
+ "oos_days": 1773,
+ "worst_day_R": -1.958,
+ "maxDD_R": 58.921,
+ "sizing_rule": "worst day < 2.5% and maxDD < 6%",
+ "risk_pct": 0.1,
+ "risk_usd": 50.0,
+ "median_stop_pts_last12m": 79.6,
+ "lots_at_median_stop": 0.63,
+ "note_lots": "FTMO US100.cash: contract size 1 => 1 lot = 1 USD per index point; lots = risk_usd / stop_pts",
+ "net_usd_oos": 5675.0,
+ "maxDD_usd_oos": 2946.0,
+ "worst_day_usd": -98.0,
+ "mc": {
+  "chosen": {
+   "risk_pct": 0.1,
+   "phase1_10pct": {
+    "iid_30d": {
+     "pass": 0.0,
+     "fail": 0.0,
+     "undecided": 1.0
+    },
+    "block_30d": {
+     "pass": 0.0,
+     "fail": 0.0,
+     "undecided": 1.0
+    },
+    "iid_250d": {
+     "pass": 0.0285,
+     "fail": 0.0,
+     "undecided": 0.9715
+    },
+    "mean_days_to_decision_30d": null,
+    "mean_days_to_decision_250d": 192.31578947368422
+   },
+   "phase2_5pct": {
+    "iid_30d": {
+     "pass": 0.004,
+     "fail": 0.0,
+     "undecided": 0.996
+    },
+    "block_30d": {
+     "pass": 0.002,
+     "fail": 0.0,
+     "undecided": 0.998
+    },
+    "iid_250d": {
+     "pass": 0.2855,
+     "fail": 0.0,
+     "undecided": 0.7145
+    },
+    "mean_days_to_decision_30d": 21.75,
+    "mean_days_to_decision_250d": 145.7197898423818
+   }
+  },
+  "0.5%": {
+   "risk_pct": 0.5,
+   "phase1_10pct": {
+    "iid_30d": {
+     "pass": 0.1495,
+     "fail": 0.017,
+     "undecided": 0.8335
+    },
+    "block_30d": {
+     "pass": 0.1495,
+     "fail": 0.069,
+     "undecided": 0.7815
+    },
+    "iid_250d": {
+     "pass": 0.572,
+     "fail": 0.3775,
+     "undecided": 0.0505
+    },
+    "mean_days_to_decision_30d": 18.34234234234234,
+    "mean_days_to_decision_250d": 82.49025803054239
+   },
+   "phase2_5pct": {
+    "iid_30d": {
+     "pass": 0.359,
+     "fail": 0.0175,
+     "undecided": 0.6235
+    },
+    "block_30d": {
+     "pass": 0.286,
+     "fail": 0.0615,
+     "undecided": 0.6525
+    },
+    "iid_250d": {
+     "pass": 0.698,
+     "fail": 0.2945,
+     "undecided": 0.0075
+    },
+    "mean_days_to_decision_30d": 14.229747675962816,
+    "mean_days_to_decision_250d": 53.907304785894205
+   }
+  },
+  "1.0%": {
+   "risk_pct": 1.0,
+   "phase1_10pct": {
+    "iid_30d": {
+     "pass": 0.346,
+     "fail": 0.269,
+     "undecided": 0.385
+    },
+    "block_30d": {
+     "pass": 0.253,
+     "fail": 0.223,
+     "undecided": 0.524
+    },
+    "iid_250d": {
+     "pass": 0.5225,
+     "fail": 0.477,
+     "undecided": 0.0005
+    },
+    "mean_days_to_decision_30d": 15.885365853658536,
+    "mean_days_to_decision_250d": 29.542271135567784
+   },
+   "phase2_5pct": {
+    "iid_30d": {
+     "pass": 0.507,
+     "fail": 0.301,
+     "undecided": 0.192
+    },
+    "block_30d": {
+     "pass": 0.436,
+     "fail": 0.211,
+     "undecided": 0.353
+    },
+    "iid_250d": {
+     "pass": 0.585,
+     "fail": 0.415,
+     "undecided": 0.0
+    },
+    "mean_days_to_decision_30d": 13.695544554455445,
+    "mean_days_to_decision_250d": 20.119
+   }
+  },
+  "2.0%": {
+   "risk_pct": 2.0,
+   "phase1_10pct": {
+    "iid_30d": {
+     "pass": 0.4215,
+     "fail": 0.549,
+     "undecided": 0.0295
+    },
+    "block_30d": {
+     "pass": 0.3495,
+     "fail": 0.367,
+     "undecided": 0.2835
+    },
+    "iid_250d": {
+     "pass": 0.418,
+     "fail": 0.582,
+     "undecided": 0.0
+    },
+    "mean_days_to_decision_30d": 10.317877382792375,
+    "mean_days_to_decision_250d": 11.382
+   },
+   "phase2_5pct": {
+    "iid_30d": {
+     "pass": 0.4945,
+     "fail": 0.4965,
+     "undecided": 0.009
+    },
+    "block_30d": {
+     "pass": 0.467,
+     "fail": 0.365,
+     "undecided": 0.168
+    },
+    "iid_250d": {
+     "pass": 0.501,
+     "fail": 0.499,
+     "undecided": 0.0
+    },
+    "mean_days_to_decision_30d": 8.196266397578205,
+    "mean_days_to_decision_250d": 8.4725
+   }
+  }
+ }
+}

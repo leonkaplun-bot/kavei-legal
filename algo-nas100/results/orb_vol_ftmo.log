@@ -1,0 +1,33 @@
+{
+ "strategy": "orb_vol",
+ "account": 50000,
+ "oos_trades": 1139,
+ "oos_days": 1773,
+ "worst_day_R": -3.74,
+ "maxDD_R": 23.397,
+ "sizing_rule": "worst day < 2.5% and maxDD < 6%",
+ "risk_pct": 0.25,
+ "risk_usd": 125.0,
+ "median_stop_pts_last12m": 210.4,
+ "lots_at_median_stop": 0.59,
+ "note_lots": "FTMO US100.cash: contract size 1 => 1 lot = 1 USD per index point; lots = risk_usd / stop_pts",
+ "net_usd_oos": 11238.0,
+ "maxDD_usd_oos": 2925.0,
+ "worst_day_usd": -467.0
+}
+
+-- risk chosen (0.25%) --
+  phase1_10pct: 30d iid  pass=0.000 fail=0.000 undecided=1.000 | 30d block pass=0.000 fail=0.000 | 250d iid pass=0.112 fail=0.002 undecided=0.886
+  phase2_5pct: 30d iid  pass=0.015 fail=0.000 undecided=0.986 | 30d block pass=0.027 fail=0.000 | 250d iid pass=0.495 fail=0.006 undecided=0.498
+
+-- risk 0.5% (0.5%) --
+  phase1_10pct: 30d iid  pass=0.017 fail=0.000 undecided=0.984 | 30d block pass=0.022 fail=0.000 | 250d iid pass=0.488 fail=0.102 undecided=0.409
+  phase2_5pct: 30d iid  pass=0.155 fail=0.000 undecided=0.845 | 30d block pass=0.143 fail=0.000 | 250d iid pass=0.740 fail=0.091 undecided=0.169
+
+-- risk 1.0% (1.0%) --
+  phase1_10pct: 30d iid  pass=0.172 fail=0.033 undecided=0.795 | 30d block pass=0.128 fail=0.032 | 250d iid pass=0.634 fail=0.320 undecided=0.046
+  phase2_5pct: 30d iid  pass=0.398 fail=0.043 undecided=0.560 | 30d block pass=0.290 fail=0.029 | 250d iid pass=0.756 fail=0.241 undecided=0.003
+
+-- risk 2.0% (2.0%) --
+  phase1_10pct: 30d iid  pass=0.416 fail=0.268 undecided=0.316 | 30d block pass=0.252 fail=0.167 | 250d iid pass=0.535 fail=0.465 undecided=0.000
+  phase2_5pct: 30d iid  pass=0.586 fail=0.273 undecided=0.141 | 30d block pass=0.455 fail=0.123 | 250d iid pass=0.663 fail=0.337 undecided=0.000
